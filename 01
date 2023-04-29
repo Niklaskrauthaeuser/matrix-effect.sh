@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Farben definieren
+GREEN="\033[0;32m"
+RESET="\033[0m"
+
+# Terminal Größe ermitteln
+HEIGHT=$(tput lines)
+WIDTH=$(tput cols)
+
+# Zeichen festlegen, die verwendet werden sollen
+CHARS="░▒▓█"
+
+# Funktion, um zufällige Zeichen zu generieren
+random_char() {
+  echo -n ${CHARS:RANDOM % ${#CHARS}:1}
+}
+
+# Terminal löschen
+clear
+
+# Unendliche Schleife für den Matrix-Effekt
+while true; do
+  for ((i=0; i<$WIDTH; i++)); do
+    random_char
+  done
+
+  # Textfarbe auf Grün setzen
+  echo -ne "${GREEN}"
+
+  # Cursor zurücksetzen
+  tput cup $((RANDOM % HEIGHT)) $((RANDOM % WIDTH))
+
+  # Zufälliges Zeichen anzeigen
+  random_char
+
+  # Farbe zurücksetzen
+  echo -ne "${RESET}"
+
+  # Verzögerung hinzufügen
+  sleep 0.01
+done
